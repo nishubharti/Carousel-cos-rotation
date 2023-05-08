@@ -1,0 +1,25 @@
+version: v1
+shippers:
+  - namespace: ns1
+    definitions:
+      - name: shipper1
+        consumer-ref:
+          - iks_consumer_demo
+        k8s/secret:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: demo-secret
+          type: Opaque
+          data:
+            api_operator_apikey : "{{ devops.secret1.apikey | b64encode }}"
+  - namespace: atracker
+    definitions:
+      - name: api
+        consumer-ref:
+          - iks_consumer_demo
+        k8s/deployment/restart:
+          targets:
+            - namespace: atracker
+              deployments:
+              - api

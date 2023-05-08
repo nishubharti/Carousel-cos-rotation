@@ -1,0 +1,24 @@
+version: v1
+configs:
+  storages:
+    - name: demo_storage
+      connection-ref: conn_ibmcloud
+      ibm.cloud/secrets-manager:
+        endpoint: #secret-manager-endpoint
+        separator: hyphen
+        
+  providers:
+    - name: iam_provider
+      connection-ref: conn_ibmcloud
+      ibm.cloud/iam-identity:
+
+  consumers:
+    - name: iks_consumer_demo
+      connection-ref: conn_ibmcloud
+      ibm.cloud/containers-kubernetes:
+        cluster_name: #cluster-name
+
+  notifiers:    
+    - name: slack_notifier
+      connection-ref: conn_slack
+      slack.com/webhooks:
